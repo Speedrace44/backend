@@ -1,3 +1,5 @@
+global.TextEncoder = require("util").TextEncoder
+global.TextDecoder = require("util").TextDecoder
 const app = require('./app')
 const http = require('http')
 const config = require('./config')
