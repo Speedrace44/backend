@@ -30,7 +30,7 @@ const roundSchema = new mongoose.Schema({
     }
   ],
   rfd: String,
-  notes: String,
+  tags: String,
 })
 
 roundSchema.set('toJSON', {
