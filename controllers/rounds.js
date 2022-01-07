@@ -10,7 +10,7 @@ roundRouter.get('/', async (request, response, next) => {
 roundRouter.get('/:id', async (request, response, next) => {
   const id = request.params.id
   const round = await Round.findById(id)
-  if(round){
+  if(round && round.id == id.toString()){
     response.json(round)
     response.status(204).end()
   }
@@ -32,8 +32,14 @@ roundRouter.post('/', async (request, response, next) => {
 roundRouter.delete('/:id', async (request, response, next) => {
   const id = request.params.id
   try{
-    await Round.findByIdAndRemove(id)
-    response.status(204).end()
+    const round = await Round.findById(id)
+    if(round.id == id.toString()){
+      await Round.findByIdAndRemove(id)
+      response.status(204).end()
+    }
+    else{
+      response.status(404).end()
+    }
   }
   catch{
     response.json(undefined)
@@ -45,9 +51,15 @@ roundRouter.put('/:id', async (request, response, next) => {
   const id = request.params.id
 
   try{
-    const round = await Round.findByIdAndUpdate(id, {...body})
-    await round.save()
-    response.status(204).end()
+    const round = await Round.findById(id)
+    if(round.id == id.toString()){
+      const round = await Round.findByIdAndUpdate(id, {...body})
+      await round.save()
+      response.status(204).end()
+    }
+    else{
+      response.status(404).end()
+    }
   }
   catch{
     response.json(undefined)
