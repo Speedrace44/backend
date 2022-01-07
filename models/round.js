@@ -31,6 +31,10 @@ const roundSchema = new mongoose.Schema({
   ],
   rfd: String,
   tags: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 roundSchema.set('toJSON', {

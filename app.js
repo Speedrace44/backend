@@ -4,6 +4,8 @@ require('express-async-errors')
 const app = express()
 const cors = require('cors')
 const roundRouter = require('./controllers/rounds')
+const userRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
@@ -34,7 +36,12 @@ app.use(morgan((tokens, req, res) => {
   ].join(' ')
 }))
 app.use(middleware.requestLogger)
-//app.use(middleware.tokenExtractor)
+app.use(middleware.tokenExtractor)
+
+app.use('/api/users', userRouter)
+app.use('/api/login', loginRouter)
+
+app.use(middleware.userExtractor)
 
 app.use('/api/rounds', roundRouter)
 
